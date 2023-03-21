@@ -110,4 +110,4 @@ ax2.tick_params(axis = 'y', bottom = True, top = True, which = "minor", directio
 plt.tight_layout()
 
 
-fig2.savefig("../orbitDiagrams/orbitDiagram"+str(p2)+str(p3)+".jpg")
+fig2.savefig("./orbitDiagram"+str(p2)+str(p3)+".jpg")
