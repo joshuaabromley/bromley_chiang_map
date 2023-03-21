@@ -1,3 +1,9 @@
+'''
+Created by Joshua Bromley
+Used to generate figure 5 in Bromley & Chiang (2023)
+https://arxiv.org/abs/2302.04898
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
@@ -35,15 +41,10 @@ axesLabelSize = 40
 tickLabelSize = 34
 textSize = 34
 
-'''
-Created by Joshua Bromley
-Used to generate figure 5 in Bromley & Chiang (2023)
-https://arxiv.org/abs/2302.04898
-'''
 
 def pierrehumbert(tau, p):
     '''
-    Map using the two stream solution derived in Pierrehumbert (20xx)
+    Map using the two stream solution derived in Pierrehumbert (2010)
     $$\gamma = 10^{p3\tanh(\log(\frac{\tau}{p4}))}$$
     $$\tau_{i+1} = p1e^{\frac{-p2}{(1 + \frac{1}{\gamma} + (1-\frac{1}{gamma})e^{-\gamma\tau})^{-\frac{1}{4}}}}
     p is an array of 4 values [d,p2,p3,4]
@@ -62,7 +63,7 @@ def nDeriv(f, x, args):
 
 def lyapunovExp(f, x0, args):
     '''
-    Calculates the lyapunov exponent using the method in Strogatz Ch 10
+    Calculates the lyapunov exponent using the method in Strogatz (2015) Ch 10
 
     '''
     lyExp = 0
