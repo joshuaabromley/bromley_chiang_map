@@ -35,6 +35,12 @@ axesLabelSize = 40
 tickLabelSize = 34
 textSize = 34
 
+'''
+Created by Joshua Bromley
+Used to generate figure 5 in Bromley & Chiang (2023)
+https://arxiv.org/abs/2302.04898
+'''
+
 def pierrehumbert(tau, p):
     '''
     Map using the two stream solution derived in Pierrehumbert (20xx)
@@ -68,10 +74,10 @@ def lyapunovExp(f, x0, args):
     return lyExp
 
 fig2, ax2 = plt.subplots(1,1, figsize = (12,8)) ##Create figure
-p1s = np.linspace(0,1.5,1000)## For orbit diagrams we want a finer granularity
+p1s = np.linspace(0,1.5,1000)## High number of points for a finer granularity
 p2 = 38 ## [20,40]
 p3 = 0.6 ## [0,2] but preferred to be lower
-p4 = 0.5 ##Fixed at 0.5 for some reason
+p4 = 0.5 ##Fixed at 0.5 in the paper
 
 
 maxTau = 0
@@ -111,3 +117,4 @@ plt.tight_layout()
 
 
 fig2.savefig("./orbitDiagram"+str(p2)+str(p3)+".jpg")
+plt.show()
