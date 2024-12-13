@@ -46,6 +46,16 @@ def pierrehumbert(tau, p):
     newTau = p[0]*np.exp(-p[1]/((1 + 1/gamma + (1 - 1/gamma)*np.exp(-gamma*tau)))**(1/4))
     return newTau
 
+def guillot(tau,p):
+    '''
+    Map using the two stream solution derived in Guillot (20xx)
+    $$\gamma = 10^{p3\tanh(\log(\frac{\tau}{p4}))}$$
+    $$\tau_{i+1} = p1e^{\frac{-p2}{(1 + \frac{1}{\gamma} + (\gamma-\frac{1}{gamma})e^{-\gamma\tau})^{-\frac{1}{4}}}}
+    p is an array of 4 values [d,p2,p3,4]
+    '''
+    gamma = 10**(p[2]*np.tanh(np.log10(tau)/p[3]))
+    newTau = p[0]*np.exp(-p[1]/((1 + 1/gamma + (gamma - 1/gamma)*np.exp(-gamma*tau)))**(1/4))
+    return newTau
 
 def nDeriv(f, x, args):
     '''
@@ -67,11 +77,14 @@ def lyapunovExp(f, x0, args):
     lyExp /= 1000
     return lyExp
 
-fig2, ax2 = plt.subplots(1,1, figsize = (12,8)) ##Create figure
-p1s = np.linspace(0,1.5,1000)## For orbit diagrams we want a finer granularity
+## Define parameters of interest
 p2 = 38 ## [20,40]
-p3 = 0.6 ## [0,2] but preferred to be lower
+p3 = 1.6 ## [0,2] but preferred to be lower
 p4 = 0.5 ##Fixed at 0.5 for some reason
+
+fig2, ax2 = plt.subplots(1,1, figsize = (12,8)) ##Create figure
+p1s = np.linspace(0,1.25,1000)## For orbit diagrams we want a finer granularity
+
 
 
 maxTau = 0
@@ -80,7 +93,7 @@ for p1 in p1s:
     for j in np.linspace(0,1,5):
         d = p1*np.exp(p2*(2)**(-0.25))
         p = [d,p2,p3,p4] ##Prepare parameters
-        tauArr = [j*p1*2]
+        tauArr = [j*p1*4]
         for i in range(200): ##Iterate the map 1000 times
             tauArr.append(pierrehumbert(tauArr[i],p)) 
             if tauArr[i] > maxTau:
@@ -90,15 +103,19 @@ for p1 in p1s:
 
 ax2.set_xlabel("$p_1$", fontsize = axesLabelSize)
 ax2.set_ylabel("Infrared Optical Depth $\\tau$", fontsize = axesLabelSize)
-ax2.text(0.15,2.6, "$p_2 = {:.0f}$".format(p2), fontsize = textSize)
-ax2.text(0.15,2.25, "$p_3 = {:.1f}$".format(p3), fontsize = textSize)
-ax2.text(0.15,1.9, "$p_4 = {:.1f}$".format(p4), fontsize = textSize)
+xMax = np.ceil(maxTau*10)/10
 
 
-ax2.set_xlim(-0.05,1.55)
-ax2.set_ylim(-0.2,3.2)
-xTicks = np.arange(0,1.51,0.25)
-yTicks = np.arange(0,3.1,0.5)
+
+ax2.text(0.12,4.4, "$p_2 = {:.0f}$".format(p2), fontsize = textSize)
+ax2.text(0.12,3.85, "$p_3 = {:.1f}$".format(p3), fontsize = textSize)
+ax2.text(0.12,3.3, "$p_4 = {:.1f}$".format(p4), fontsize = textSize)
+
+
+ax2.set_xlim(-0.05,1.30)
+ax2.set_ylim(-0.4,5.4)
+xTicks = np.arange(0,1.26,0.25)
+yTicks = np.arange(0,5.6,1)
 ax2.set_xticks(xTicks)
 ax2.set_yticks(yTicks)
 
@@ -109,6 +126,4 @@ ax2.tick_params(axis = 'y', bottom = True, top = True, which = "minor", directio
 
 plt.tight_layout()
 
-
-fig2.savefig("./orbitDiagram"+str(p2)+str(p3)+".jpg")
-plt.show()
+fig2.savefig("../orbitDiagrams/orbitDiagram"+str(p2)+str(p3)+".jpg")
