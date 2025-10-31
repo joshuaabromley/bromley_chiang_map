@@ -5,4 +5,4 @@ This code was primarily used to iterate the map and generate the figures used in
 These names are derived from the references where the radiative transfer equations are derived from. Additionally, the data for figures 10 and 14 are contained in files `chaoticPointsMC2.txt` and `chaoticPointsGuillot2.txt` respectively. 
 These data are generated in the file `chaosClassifier.py` and plotted in `volumePlotter.py`. The format for the data in each row is `p1,p2,p3,lyExp`
 
-Any questions about this code should be directed to Joshua Bromley (`j.bromley AT mail.utoronto.ca`)
+Any questions about this code should be directed to Joshua Bromley (`joshua.bromley AT astro.utoronto.ca`)
